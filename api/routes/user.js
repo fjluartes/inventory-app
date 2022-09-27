@@ -10,7 +10,7 @@ router.post("/register", (req, res) => {
 
 router.get("/details", auth.verify, (req, res) => {
   const user = auth.decode(req.headers.authorization);
-  UserController.get({ userId: user.id }).then((user) => res.send(user));
+  UserController.get({ userId: user.id }).then((result) => res.send(result));
 });
 
 router.post("/login", (req, res) => {

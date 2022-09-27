@@ -20,7 +20,7 @@ module.exports.register = (params) => {
 
 module.exports.get = (params) => {
   return User.findById(params.userId).then((user) => {
-    user.password = null;
+    // user.password = null;
     return user;
   });
 };
