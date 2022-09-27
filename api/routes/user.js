@@ -1,19 +1,20 @@
-const express = require('express');
+const express = require("express");
+
 const router = express.Router();
-const UserController = require('../controllers/user');
-const auth = require('../auth');
+const UserController = require("../controllers/user");
+const auth = require("../auth");
 
-router.post('/register', (req, res) => {
-  UserController.register(req.body).then(result => res.send(result));
+router.post("/register", (req, res) => {
+  UserController.register(req.body).then((result) => res.send(result));
 });
 
-router.get('/details', auth.verify, (req, res) => {
+router.get("/details", auth.verify, (req, res) => {
   const user = auth.decode(req.headers.authorization);
-  UserController.get({ userId: user.id }).then(user => res.send(user));
+  UserController.get({ userId: user.id }).then((user) => res.send(user));
 });
 
-router.post('/login', (req, res) => {
-  UserController.login(req.body).then(result => res.send(result));
+router.post("/login", (req, res) => {
+  UserController.login(req.body).then((result) => res.send(result));
 });
 
 module.exports = router;

@@ -1,18 +1,18 @@
-const Post = require('../models/post');
+const Post = require("../models/post");
 
 module.exports.add = (params) => {
-  let post = new Post({
+  const post = new Post({
     post: params.post,
-    userId: params.userId
+    userId: params.userId,
   });
 
-  return post.save().then((user, err) => {
-    return (err) ? false : true;
+  return post.save().then((err) => {
+    return !err;
   });
 };
 
 module.exports.getAll = () => {
-  return Post.find({}).then(posts => {
+  return Post.find({}).then((posts) => {
     return posts;
   });
 };
