@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: new Date(),
   },
+  dateUpdated: {
+    type: Date,
+    default: new Date(),
+  },
 });
 const User = mongoose.model("User", userSchema);
 

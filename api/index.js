@@ -26,9 +26,11 @@ db.once("open", () => {
 
 const userRoutes = require("./routes/user");
 const itemRoutes = require("./routes/item");
+const categoryRoutes = require("./routes/category");
 
 app.use("/api/users", userRoutes);
 app.use("/api/items", itemRoutes);
+app.use("/api/categories", categoryRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to Express");

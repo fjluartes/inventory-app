@@ -17,7 +17,7 @@ module.exports.add = (params) => {
   });
 };
 
-module.exports.get = (params) => {
+module.exports.findOne = (params) => {
   return User.findById(params.userId).then((user) => {
     // user.password = null;
     return user;
@@ -32,5 +32,17 @@ module.exports.login = (params) => {
       return { access: auth.createAccessToken(user.toObject()) };
     }
     return false;
+  });
+};
+
+module.exports.edit = (params) => {
+  return User.updateOne({ _id: params.id }, params).then((user) => {
+    return user;
+  });
+};
+
+module.exports.archive = (params) => {
+  return User.updateOne({ _id: params.id }, { isArchived: true }).then(() => {
+    return { message: "User deleted." };
   });
 };

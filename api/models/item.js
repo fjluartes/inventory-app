@@ -1,30 +1,35 @@
 const mongoose = require("mongoose");
 
 const itemSchema = new mongoose.Schema({
-  post: {
+  name: {
     type: String,
-    required: [true, "Post is required"],
+    required: [true, "Name is required"],
   },
-  userId: {
+  description: {
     type: String,
-    required: [true, "userId is required"],
+    required: [true, "Description is required"],
   },
-  postedOn: {
+  category: {
+    categoryId: {
+      type: Number,
+    },
+    categoryName: {
+      type: String,
+      required: [true, "Category name is required"],
+    },
+  },
+  isArchived: {
+    type: Boolean,
+    default: false,
+  },
+  dateCreated: {
     type: Date,
     default: new Date(),
   },
-  likeCount: {
-    type: Number,
-    default: 0,
+  dateUpdated: {
+    type: Date,
+    default: new Date(),
   },
-  repost: [
-    {
-      postId: {
-        type: String,
-        required: [true, "postId is required"],
-      },
-    },
-  ],
 });
 const Item = mongoose.model("Item", itemSchema);
 
