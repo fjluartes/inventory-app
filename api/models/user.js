@@ -13,38 +13,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Email is required"],
   },
-  birthDate: {
-    type: Date,
-    required: [true, "Birth date is required"],
-  },
   password: {
     type: String,
     required: [true, "Password is required"],
   },
-  location: {
-    type: String,
-    required: false,
-  },
-  bio: {
-    type: String,
-    required: false,
-  },
-  joinedOn: {
+  dateCreated: {
     type: Date,
     default: new Date(),
   },
-  userPosts: [
-    {
-      postId: {
-        type: String,
-        required: [true, "postId is required"],
-      },
-      postedOn: {
-        type: Date,
-        default: new Date(),
-      },
-    },
-  ],
 });
 const User = mongoose.model("User", userSchema);
 

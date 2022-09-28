@@ -4,13 +4,12 @@ const auth = require("../auth");
 
 const salt = bcrypt.genSaltSync(10);
 
-module.exports.register = (params) => {
+module.exports.add = (params) => {
   const hash = bcrypt.hashSync(params.password, salt);
   const user = new User({
     name: params.name,
     username: params.username,
     email: params.email,
-    birthDate: params.birthDate,
     password: hash,
   });
   return user.save().then((err) => {

@@ -4,8 +4,8 @@ const router = express.Router();
 const UserController = require("../controllers/user");
 const auth = require("../auth");
 
-router.post("/register", (req, res) => {
-  UserController.register(req.body).then((result) => res.send(result));
+router.post("/add", (req, res) => {
+  UserController.add(req.body).then((result) => res.send(result));
 });
 
 router.get("/details", auth.verify, (req, res) => {
