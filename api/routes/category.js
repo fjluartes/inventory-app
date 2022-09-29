@@ -12,7 +12,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/:name", (req, res) => {
-  CategoryController.findAll(req.params.name).then((categories) => res.send(categories));
+  CategoryController.findOne(req.params.name).then((categories) => res.send(categories));
 });
 
 router.put("/edit", (req, res) => {
