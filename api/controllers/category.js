@@ -35,7 +35,7 @@ const findOne = async (name) => {
 const edit = async (params) => {
   try {
     const category = await Category.updateOne({ _id: params.id }, params);
-    return category;
+    return { message: "Category edited.", data: category };
   } catch (err) {
     return err;
   }
@@ -51,4 +51,4 @@ const archive = async (params) => {
   }
 };
 
-module.exports = [add, findAll, findOne, edit, archive];
+module.exports = { add, findAll, findOne, edit, archive };

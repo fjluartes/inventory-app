@@ -47,7 +47,7 @@ const login = async (params) => {
 const edit = async (params) => {
   try {
     const user = await User.updateOne({ _id: params.id }, params);
-    return user;
+    return { message: "User edited.", data: user };
   } catch (err) {
     return err;
   }
@@ -62,4 +62,4 @@ const archive = async (params) => {
   }
 };
 
-module.exports = [add, findOne, login, edit, archive];
+module.exports = { add, findOne, login, edit, archive };

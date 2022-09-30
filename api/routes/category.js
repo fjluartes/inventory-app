@@ -30,18 +30,18 @@ router.get("/:name", async (req, res) => {
   }
 });
 
-router.put("/edit", (req, res) => {
+router.put("/edit", async (req, res) => {
   try {
-    const category = CategoryController.edit(req.body);
+    const category = await CategoryController.edit(req.body);
     res.status(200).send(category);
   } catch (err) {
     res.status(500).send(err);
   }
 });
 
-router.put("/delete", (req, res) => {
+router.put("/delete", async (req, res) => {
   try {
-    const result = CategoryController.archive(req.body);
+    const result = await CategoryController.archive(req.body);
     res.status(200).send(result.message);
   } catch (err) {
     res.status(500).send(err);
