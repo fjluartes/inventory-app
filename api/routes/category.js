@@ -3,26 +3,49 @@ const express = require("express");
 const router = express.Router();
 const CategoryController = require("../controllers/category");
 
-router.post("/add", (req, res) => {
-  CategoryController.add(req.body).then((result) => res.send(result));
+router.post("/add", async (req, res) => {
+  try {
+    const result = await CategoryController.add(req.body);
+    res.status(200).send(result);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
-router.get("/", (req, res) => {
-  CategoryController.findAll().then((categories) => res.send(categories));
+router.get("/", async (req, res) => {
+  try {
+    const result = await CategoryController.findAll();
+    res.status(200).send(result);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
-router.get("/:name", (req, res) => {
-  CategoryController.findOne(req.params.name).then((categories) => {
-    return res.send(categories);
-  });
+router.get("/:name", async (req, res) => {
+  try {
+    const categories = CategoryController.findOne(req.params.name);
+    res.status(200).send(categories);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
 router.put("/edit", (req, res) => {
-  CategoryController.edit(req.body).then((category) => res.send(category));
+  try {
+    const category = CategoryController.edit(req.body);
+    res.status(200).send(category);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
 router.put("/delete", (req, res) => {
-  CategoryController.archive(req.body).then((result) => res.send(result));
+  try {
+    const category = CategoryController.archive(req.body);
+    res.status(200).send(category);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
 module.exports = router;

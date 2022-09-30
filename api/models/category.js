@@ -12,7 +12,7 @@ const categorySchema = new mongoose.Schema({
   items: [
     {
       itemId: {
-        type: Number,
+        type: String,
       },
       itemName: {
         type: String,

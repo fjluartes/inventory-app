@@ -1,9 +1,11 @@
 const Item = require("../models/item");
+// const CategoryController = require("./category");
 
 module.exports.add = (params) => {
   const item = new Item({
     name: params.name,
     description: params.description,
+    quantity: params.quantity,
     category: params.category,
   });
   // add to category collection

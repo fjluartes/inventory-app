@@ -9,9 +9,13 @@ const itemSchema = new mongoose.Schema({
     type: String,
     required: [true, "Description is required"],
   },
+  quantity: {
+    type: Number,
+    required: [true, "Quantity is required"],
+  },
   category: {
     categoryId: {
-      type: Number,
+      type: String,
     },
     categoryName: {
       type: String,
