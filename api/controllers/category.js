@@ -1,4 +1,5 @@
 const Category = require("../models/category");
+// const ItemController = require("./item");
 
 const add = async (params) => {
   try {
@@ -31,18 +32,18 @@ const findOne = async (name) => {
   }
 };
 
-const edit = (params) => {
+const edit = async (params) => {
   try {
-    const category = Category.updateOne({ _id: params.id }, params);
+    const category = await Category.updateOne({ _id: params.id }, params);
     return category;
   } catch (err) {
     return err;
   }
 };
 
-const archive = (params) => {
+const archive = async (params) => {
   try {
-    const category = Category.updateOne({ _id: params.id }, { isArchived: true });
+    const category = await Category.updateOne({ _id: params.id }, { isArchived: true });
     // add archiving to items under the category
     return { message: "Category deleted.", data: category };
   } catch (err) {

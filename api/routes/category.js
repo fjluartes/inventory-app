@@ -41,8 +41,8 @@ router.put("/edit", (req, res) => {
 
 router.put("/delete", (req, res) => {
   try {
-    const category = CategoryController.archive(req.body);
-    res.status(200).send(category);
+    const result = CategoryController.archive(req.body);
+    res.status(200).send(result.message);
   } catch (err) {
     res.status(500).send(err);
   }

@@ -3,24 +3,49 @@ const express = require("express");
 const router = express.Router();
 const ItemController = require("../controllers/item");
 
-router.post("/add", (req, res) => {
-  ItemController.add(req.body).then((result) => res.send(result));
+router.post("/add", async (req, res) => {
+  try {
+    const item = await ItemController.add(req.body);
+    res.status(200).send(item);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
-router.get("/", (req, res) => {
-  ItemController.findAll().then((items) => res.send(items));
+router.get("/", async (req, res) => {
+  try {
+    const items = await ItemController.findAll();
+    res.status(200).send(items);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
-router.get("/:id", (req, res) => {
-  ItemController.findOne(req.params.id).then((item) => res.send(item));
+router.get("/:id", async (req, res) => {
+  try {
+    const item = await ItemController.findOne(req.params.id);
+    res.status(200).send(item);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
-router.put("/edit", (req, res) => {
-  ItemController.edit(req.body).then((category) => res.send(category));
+router.put("/edit", async (req, res) => {
+  try {
+    const item = await ItemController.edit(req.body);
+    res.status(200).send(item);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
-router.put("/delete", (req, res) => {
-  ItemController.archive(req.body).then((result) => res.send(result));
+router.put("/delete", async (req, res) => {
+  try {
+    const result = await ItemController.edit(req.body);
+    res.status(200).send(result.message);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
 module.exports = router;

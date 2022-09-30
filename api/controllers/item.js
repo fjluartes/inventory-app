@@ -1,39 +1,56 @@
 const Item = require("../models/item");
 // const CategoryController = require("./category");
 
-module.exports.add = (params) => {
-  const item = new Item({
-    name: params.name,
-    description: params.description,
-    quantity: params.quantity,
-    category: params.category,
-  });
-  // add to category collection
-  return item.save().then((err) => {
-    return !err;
-  });
+const add = async (params) => {
+  try {
+    const item = new Item({
+      name: params.name,
+      description: params.description,
+      quantity: params.quantity,
+      category: params.category,
+    });
+    // add to category collection
+    const newItem = await item.save();
+    return newItem;
+  } catch (err) {
+    return err;
+  }
 };
 
-module.exports.findAll = () => {
-  return Item.find({}).then((items) => {
+const findAll = async () => {
+  try {
+    const items = await Item.find({});
     return items;
-  });
+  } catch (err) {
+    return err;
+  }
 };
 
-module.exports.findOne = (params) => {
-  return Item.findOne({ _id: params.id }).then((item) => {
+const findOne = async (params) => {
+  try {
+    const item = await Item.findOne({ _id: params.id });
     return item;
-  });
+  } catch (err) {
+    return err;
+  }
 };
 
-module.exports.edit = (params) => {
-  return Item.updateOne({ _id: params.id }, params).then((item) => {
+const edit = async (params) => {
+  try {
+    const item = await Item.updateOne({ _id: params.id }, params);
     return item;
-  });
+  } catch (err) {
+    return err;
+  }
 };
 
-module.exports.archive = (params) => {
-  return Item.updateOne({ _id: params.id }, { isArchived: true }).then(() => {
-    return { message: "Item deleted." };
-  });
+const archive = async (params) => {
+  try {
+    const item = await Item.updateOne({ _id: params.id }, { isArchived: true });
+    return { message: "Item deleted.", data: item };
+  } catch (err) {
+    return err;
+  }
 };
+
+module.exports = [add, findAll, findOne, edit, archive];
