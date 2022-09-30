@@ -4,25 +4,50 @@ const router = express.Router();
 const UserController = require("../controllers/user");
 const auth = require("../auth");
 
-router.post("/add", (req, res) => {
-  UserController.add(req.body).then((result) => res.send(result));
+router.post("/add", async (req, res) => {
+  try {
+    const user = await UserController.add(req.body);
+    res.status(200).send(user);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
-router.get("/details", auth.verify, (req, res) => {
-  const user = auth.decode(req.headers.authorization);
-  UserController.findOne({ userId: user.id }).then((result) => res.send(result));
+router.get("/details", auth.verify, async (req, res) => {
+  try {
+    const user = auth.decode(req.headers.authorization);
+    const userDetails = await UserController.findOne({ userId: user.id });
+    res.status(500).send(userDetails);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
-router.post("/login", (req, res) => {
-  UserController.login(req.body).then((result) => res.send(result));
+router.post("/login", async (req, res) => {
+  try {
+    const result = await UserController.login(req.body);
+    res.status(200).send(result);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
-router.put("/edit", (req, res) => {
-  UserController.edit(req.body).then((category) => res.send(category));
+router.put("/edit", async (req, res) => {
+  try {
+    const user = await UserController.edit(req.body);
+    res.status(200).send(user);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
-router.put("/delete", (req, res) => {
-  UserController.archive(req.body).then((result) => res.send(result));
+router.put("/delete", async (req, res) => {
+  try {
+    const result = await UserController.archive(req.body);
+    res.status(200).send(result.message);
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
 module.exports = router;
