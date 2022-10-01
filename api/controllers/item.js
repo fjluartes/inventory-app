@@ -1,5 +1,5 @@
 const Item = require("../models/item");
-// const CategoryController = require("./category");
+const Category = require("../models/category");
 
 const add = async (params) => {
   try {
@@ -9,8 +9,10 @@ const add = async (params) => {
       quantity: params.quantity,
       category: params.category,
     });
-    // add to category collection
     const newItem = await item.save();
+    const category = await Category.findOne({ _id: params.category.categoryId });
+    category.items.push({ itemId: newItem._id, itemName: newItem.name });
+    await category.save();
     return newItem;
   } catch (err) {
     return err;
@@ -20,6 +22,15 @@ const add = async (params) => {
 const findAll = async () => {
   try {
     const items = await Item.find({});
+    return items;
+  } catch (err) {
+    return err;
+  }
+};
+
+const findAllByCategory = async ({ name }) => {
+  try {
+    const items = await Item.find({ "category.categoryName": name });
     return items;
   } catch (err) {
     return err;
@@ -53,4 +64,4 @@ const archive = async (params) => {
   }
 };
 
-module.exports = { add, findAll, findOne, edit, archive };
+module.exports = { add, findAll, findAllByCategory, findOne, edit, archive };

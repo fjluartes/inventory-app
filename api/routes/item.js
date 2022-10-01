@@ -15,6 +15,7 @@ router.post("/add", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const items = await ItemController.findAll();
+    // const items = await ItemController.findAllByCategory({ name: "Phones" });
     res.status(200).send(items);
   } catch (err) {
     res.status(500).send(err);
