@@ -27,7 +27,7 @@ function preventDefault(event) {
 export default function Orders() {
   return (
     <>
-      <Title>Recent Orders</Title>
+      <Title>Inventory</Title>
       <Table size="small">
         <TableHead>
           <TableRow>

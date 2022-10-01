@@ -17,7 +17,7 @@ router.get("/details", auth.verify, async (req, res) => {
   try {
     const user = auth.decode(req.headers.authorization);
     const userDetails = await UserController.findOne({ userId: user.id });
-    res.status(500).send(userDetails);
+    res.status(200).send(userDetails);
   } catch (err) {
     res.status(500).send(err);
   }

@@ -13,6 +13,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
 import Swal from "sweetalert2";
 import { API_URL } from "../appHelper";
 
@@ -34,6 +35,7 @@ const theme = createTheme();
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const { user, setUser } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,33 +43,44 @@ export default function SignIn() {
       email,
       password,
     };
-    const payload = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(loginObj),
-    };
-    await fetch(`${API_URL}/users/login`, payload)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        if (data !== null) {
-          window.location.href = "/dashboard";
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Something went wrong in login",
+
+    try {
+      const result = await axios.post(`${API_URL}/users/login`, loginObj);
+      if (result.status === 200) {
+        const { data } = result;
+        if (data.access) {
+          localStorage.setItem("token", data.access);
+          const details = await axios.get(`${API_URL}/users/details`, {
+            headers: {
+              authorization: `Bearer ${data.access}`,
+            },
           });
+          if (details.status === 200) {
+            // const userData = details.data;
+            // setUser({
+            //   id: userData._id,
+            //   email: userData.email,
+            // });
+            setEmail("");
+            setPassword("");
+            window.location.replace("/dashboard");
+          }
         }
-        setEmail("");
-        setPassword("");
-      })
-      .catch((err) => {
-        console.log(err);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Wrong credentials",
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.message,
       });
+    }
   };
 
   return (

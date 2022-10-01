@@ -11,6 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
 import Swal from "sweetalert2";
 import { API_URL } from "../appHelper";
 
@@ -42,42 +43,37 @@ export default function SignUp() {
       email,
       password,
     };
-    const payload = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(registerObj),
-    };
-    await fetch(`${API_URL}/users/add`, payload)
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        if (data !== null) {
-          Swal.fire({
-            icon: "success",
-            title: "Success",
-            text: "New User Registered Successfully",
-            confirmButtonText: "Proceed to Login",
-          }).then(() => {
-            window.location.href = "/";
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Something went wrong in the registration",
-          });
-        }
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setPassword("");
-      })
-      .catch((err) => {
-        console.log(err);
+
+    try {
+      const result = await axios.post(`${API_URL}/users/add`, registerObj);
+      if (result.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Successfully registered user",
+          confirmButtonText: "Proceed to Login",
+        }).then(() => {
+          setFirstName("");
+          setLastName("");
+          setEmail("");
+          setPassword("");
+          window.location.replace("/");
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Something went wrong",
+        });
+      }
+    } catch (err) {
+      // console.log(err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.message,
       });
+    }
   };
 
   return (
