@@ -11,6 +11,7 @@ function Title(props) {
 }
 
 Title.propTypes = {
+  // eslint-disable-next-line react/require-default-props
   children: PropTypes.node,
 };
 

@@ -9,7 +9,6 @@ const add = async (params) => {
     const hash = bcrypt.hashSync(params.password, salt);
     const user = new User({
       name: params.name,
-      username: params.username,
       email: params.email,
       password: hash,
     });
@@ -31,7 +30,7 @@ const findOne = async (params) => {
 
 const login = async (params) => {
   try {
-    const user = await User.findOne({ username: params.username });
+    const user = await User.findOne({ email: params.email });
     if (user === null) return false;
     const isPasswordMatched = bcrypt.compareSync(params.password, user.password);
     if (isPasswordMatched) {
