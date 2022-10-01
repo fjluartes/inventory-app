@@ -14,7 +14,6 @@ const add = async (params) => {
       password: hash,
     });
     const newUser = await user.save();
-    console.log(newUser);
     return newUser;
   } catch (err) {
     return err;

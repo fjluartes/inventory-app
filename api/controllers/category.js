@@ -1,5 +1,4 @@
 const Category = require("../models/category");
-// const ItemController = require("./item");
 
 const add = async (params) => {
   try {
@@ -16,7 +15,6 @@ const add = async (params) => {
 const findAll = async () => {
   try {
     const categories = await Category.find({ isArchived: false });
-    // add item details
     return categories;
   } catch (err) {
     return err;
