@@ -12,11 +12,11 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 export const mainListItems = (
   <>
-    <ListItemButton as={RouterLink} to="/dashboard">
+    <ListItemButton as={RouterLink} to="/inventory">
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <ListItemText primary="Inventory" />
     </ListItemButton>
     {/* <ListItemButton>
       <ListItemIcon>

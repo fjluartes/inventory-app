@@ -63,7 +63,7 @@ export default function SignIn() {
             // });
             setEmail("");
             setPassword("");
-            window.location.replace("/dashboard");
+            window.location.replace("/inventory");
           }
         }
       } else {

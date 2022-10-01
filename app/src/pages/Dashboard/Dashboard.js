@@ -1,4 +1,4 @@
-import * as React from "react";
+import { React, useEffect, useState } from "react";
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -17,10 +17,12 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import axios from "axios";
 import { mainListItems } from "./listItems";
 // import Chart from "./Chart";
 // import Deposits from "./Deposits";
 import Items from "./Items";
+import { API_URL } from "../../appHelper";
 
 function Copyright(props) {
   return (
@@ -84,10 +86,24 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme();
 
 function DashboardContent() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  const [categories, setCategories] = useState([]);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      const result = await axios.get(`${API_URL}/categories/`, {
+        headers: {
+          authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMzQzZjM4OGYzOTdiMjgzZmQ2MWEwYiIsImlhdCI6MTY2NDYwMTUwMH0.NnunAgI9yGC8eIO7JMMHKBJ-TPy8kNnlYM_Hx9_REks`,
+        },
+      });
+      console.log(result.data);
+      setCategories(result.data);
+    }
+    fetchData();
+  }, []);
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -112,7 +128,7 @@ function DashboardContent() {
               <MenuIcon />
             </IconButton>
             <Typography component="h1" variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-              Dashboard
+              Inventory
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -177,11 +193,16 @@ function DashboardContent() {
                 </Paper>
               </Grid> */}
               {/* Recent Orders */}
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <Items />
-                </Paper>
-              </Grid>
+              {categories.length !== 0 &&
+                categories.map((category) => {
+                  return (
+                    <Grid item xs={12}>
+                      <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                        <Items category={category.name} />
+                      </Paper>
+                    </Grid>
+                  );
+                })}
             </Grid>
             <Copyright sx={{ pt: 4 }} />
           </Container>
