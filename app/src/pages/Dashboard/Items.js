@@ -15,7 +15,6 @@ function preventDefault(e) {
 
 // eslint-disable-next-line react/prop-types
 export default function Items({ category }) {
-  // eslint-disable-next-line no-unused-vars
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -55,7 +54,7 @@ export default function Items({ category }) {
         </TableBody>
       </Table>
       <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
-        Add New {category}
+        Add New
       </Link>
     </>
   );

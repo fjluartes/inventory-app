@@ -1,15 +1,27 @@
 # Inventory Management App
 
-Inventory Management Web App (App and API).
+Inventory Management Web App (App and API). 
+
+### Tech Stack
+- MongoDB
+- Express.js
+- React (Material UI)
+- Node.js
+
+### Data
+- Users
+- Categories
+- Items
 
 ## Add User
 
+Payload for User registration.
+
 ```
 {
-    "firstName": "user-first-name",
-    "lastName": "user-last-name",
-    "email": "user-email",
-    "password": "user-password"
+    "name": "Tim Cook",
+    "email": "tim@apple.com",
+    "password": "iLoveAppleCorp"
 }
 ```
 
@@ -17,43 +29,36 @@ Inventory Management Web App (App and API).
 
 ```
 {
-    "email": "user-email",
-    "password": "user-password"
-}
-```
-
-## Add Item
-
-```
-{
-    "name": "store-name",
-    "address": "store-address",
-    "contactNo": "store-contact-number",
-    "menu": [
-        {
-            "itemId": "drink-id-cocktaildb",
-            "name": "drink-name-cocktaildb",
-            "price": price
-        }
-    ]
+    "email": "tim@apple.com",
+    "password": "iLoveAppleCorp"
 }
 ```
 
 ## Add Category
 
+Only category name is required.
+
 ```
 {
-    "userName": "user-name",
-    "address": "user-address",
-    "contactNo": "user-contact-details",
-    "items": [
-        {
-            "name": "drink-name-cocktaildb",
-            "price": price,
-            "quantity": quantity
-        }
-    ],
-    "total": total-price
+    "name": "laptops"
 }
 ```
 
+## Add Item
+
+Item has categoryId and categoryName. Item id and name is also saved in category under items array. 
+
+```
+{
+    "name": "Macbook Air M1",
+    "description": "The latest Macbook Air for 2021",
+    "quantity": 20,
+    "category": {
+        "categoryId": "your-category-id",
+        "categoryName": "Laptops"
+    }
+}
+```
+
+## Notes
+- Delete item or category sets ```isArchived = true```.
