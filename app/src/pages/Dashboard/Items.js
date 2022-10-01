@@ -20,13 +20,12 @@ export default function Items({ category }) {
 
   useEffect(() => {
     async function fetchData() {
-      // const category = "Phones";
+      const access = localStorage.getItem("token");
       const result = await axios.get(`${API_URL}/items/by-category/${category}`, {
         headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMzQzZjM4OGYzOTdiMjgzZmQ2MWEwYiIsImlhdCI6MTY2NDYwMTUwMH0.NnunAgI9yGC8eIO7JMMHKBJ-TPy8kNnlYM_Hx9_REks`,
+          authorization: `Bearer ${access}`,
         },
       });
-      console.log(result.data);
       setItems(result.data);
     }
     fetchData();
@@ -56,7 +55,7 @@ export default function Items({ category }) {
         </TableBody>
       </Table>
       <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
-        See more orders
+        Add New {category}
       </Link>
     </>
   );

@@ -94,12 +94,12 @@ function DashboardContent() {
 
   useEffect(() => {
     async function fetchData() {
+      const access = localStorage.getItem("token");
       const result = await axios.get(`${API_URL}/categories/`, {
         headers: {
-          authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMzQzZjM4OGYzOTdiMjgzZmQ2MWEwYiIsImlhdCI6MTY2NDYwMTUwMH0.NnunAgI9yGC8eIO7JMMHKBJ-TPy8kNnlYM_Hx9_REks`,
+          authorization: `Bearer ${access}`,
         },
       });
-      console.log(result.data);
       setCategories(result.data);
     }
     fetchData();
@@ -196,7 +196,7 @@ function DashboardContent() {
               {categories.length !== 0 &&
                 categories.map((category) => {
                   return (
-                    <Grid item xs={12}>
+                    <Grid item xs={12} key={category._id}>
                       <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
                         <Items category={category.name} />
                       </Paper>
