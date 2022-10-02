@@ -50,7 +50,7 @@ router.put("/edit", async (req, res) => {
 
 router.put("/delete", async (req, res) => {
   try {
-    const result = await ItemController.edit(req.body);
+    const result = await ItemController.archive(req.body);
     res.status(200).send(result.message);
   } catch (err) {
     res.status(500).send(err);

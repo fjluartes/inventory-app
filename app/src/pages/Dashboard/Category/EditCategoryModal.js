@@ -37,7 +37,44 @@ export default function EditCategoryModal({ category }) {
         },
       });
       if (result.status === 200) {
-        console.log(result.data);
+        handleClose();
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: result.data.message,
+          confirmButtonText: "Back to Inventory",
+        }).then(() => {
+          setName("");
+          window.location.replace("/inventory");
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Something went wrong",
+        });
+      }
+    } catch (err) {
+      // console.log(err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.message,
+      });
+    }
+  };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    const categoryObj = { id: category._id };
+    try {
+      const access = localStorage.getItem("token");
+      const result = await axios.put(`${API_URL}/categories/delete`, categoryObj, {
+        headers: {
+          authorization: `Bearer ${access}`,
+        },
+      });
+      if (result.status === 200) {
         handleClose();
         Swal.fire({
           icon: "success",
@@ -90,6 +127,7 @@ export default function EditCategoryModal({ category }) {
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleSubmit}>Save</Button>
+          <Button onClick={handleDelete}>Delete</Button>
         </DialogActions>
       </Dialog>
     </div>

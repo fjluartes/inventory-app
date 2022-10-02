@@ -45,18 +45,20 @@ export default function Items({ category }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map((item) => (
-            <TableRow key={item._id}>
-              <TableCell>{item.dateCreated}</TableCell>
-              <TableCell>
-                <Link color="primary" href="#">
-                  <EditItemModal category={category} item={item} />
-                </Link>
-              </TableCell>
-              <TableCell>{item.description}</TableCell>
-              <TableCell align="right">{item.quantity}</TableCell>
-            </TableRow>
-          ))}
+          {items.map((item) => {
+            return !item.isArchived ? (
+              <TableRow key={item._id}>
+                <TableCell>{item.dateCreated}</TableCell>
+                <TableCell>
+                  <Link color="primary" href="#">
+                    <EditItemModal category={category} item={item} />
+                  </Link>
+                </TableCell>
+                <TableCell>{item.description}</TableCell>
+                <TableCell align="right">{item.quantity}</TableCell>
+              </TableRow>
+            ) : null;
+          })}
         </TableBody>
       </Table>
       <div style={{ marginTop: "10px" }}>

@@ -74,6 +74,46 @@ export default function EditItemModal({ category, item }) {
     }
   };
 
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    const itemObj = { id: item._id };
+    try {
+      const access = localStorage.getItem("token");
+      const result = await axios.put(`${API_URL}/items/delete`, itemObj, {
+        headers: {
+          authorization: `Bearer ${access}`,
+        },
+      });
+      if (result.status === 200) {
+        handleClose();
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: result.data,
+          confirmButtonText: "Back to Inventory",
+        }).then(() => {
+          setName("");
+          setDescription("");
+          setQuantity(0);
+          window.location.replace("/inventory");
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Something went wrong",
+        });
+      }
+    } catch (err) {
+      // console.log(err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.message,
+      });
+    }
+  };
+
   useEffect(() => {
     setName(item.name);
     setDescription(item.description);
@@ -136,6 +176,7 @@ export default function EditItemModal({ category, item }) {
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleSubmit}>Save</Button>
+          <Button onClick={handleDelete}>Delete</Button>
         </DialogActions>
       </Dialog>
     </div>

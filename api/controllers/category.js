@@ -57,8 +57,12 @@ const edit = async (params) => {
 
 const archive = async (params) => {
   try {
+    const oldCategory = await Category.findOne({ _id: params.id });
     const category = await Category.updateOne({ _id: params.id }, { isArchived: true });
-    // add archiving to items under the category
+    const items = await ItemController.findAllByCategory({ name: oldCategory.name });
+    items.forEach(async (item) => {
+      await Item.updateOne({ _id: item._id }, { isArchived: true });
+    });
     return { message: "Category deleted.", data: category };
   } catch (err) {
     return err;
