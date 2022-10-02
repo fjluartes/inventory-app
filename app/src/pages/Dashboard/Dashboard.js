@@ -88,7 +88,6 @@ const mdTheme = createTheme();
 function DashboardContent() {
   const [open, setOpen] = useState(true);
   const [categories, setCategories] = useState([]);
-  const [categoryNames, setCategoryNames] = useState([]);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -102,8 +101,6 @@ function DashboardContent() {
         },
       });
       setCategories(result.data);
-      const namesArr = categories.map((category) => category.name);
-      setCategoryNames(namesArr);
     }
     fetchData();
   }, []);
@@ -188,7 +185,7 @@ function DashboardContent() {
                   return (
                     <Grid item xs={12} key={category._id}>
                       <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                        <Items category={category} categoryNames={categoryNames} />
+                        <Items category={category} categories={categories} />
                       </Paper>
                     </Grid>
                   );

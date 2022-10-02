@@ -8,9 +8,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export default function ItemModal({ categoryNames }) {
+export default function ItemModal({ categories }) {
   const [open, setOpen] = useState(false);
-  console.log(categoryNames);
+  console.log(categories);
 
   const handleClickOpen = () => {
     setOpen(true);

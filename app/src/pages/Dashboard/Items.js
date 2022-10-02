@@ -10,7 +10,7 @@ import ItemModal from "./ItemModal";
 import Title from "./Title";
 import { API_URL } from "../../appHelper";
 
-export default function Items({ category, categoryNames }) {
+export default function Items({ category, categories }) {
   const [items, setItems] = useState([]);
   const { name } = category;
 
@@ -51,7 +51,7 @@ export default function Items({ category, categoryNames }) {
         </TableBody>
       </Table>
       <div style={{ marginTop: "10px" }}>
-        <ItemModal sx={{ mt: 3 }} categoryNames={categoryNames} />
+        <ItemModal sx={{ mt: 3 }} categories={categories} />
       </div>
     </>
   );
