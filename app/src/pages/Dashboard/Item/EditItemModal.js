@@ -110,6 +110,7 @@ export default function EditItemModal({ openModal, category, item }) {
             type="number"
             fullWidth
             variant="standard"
+            value={item.quantity}
             onChange={(e) => setQuantity(e.target.value)}
           />
           <TextField
