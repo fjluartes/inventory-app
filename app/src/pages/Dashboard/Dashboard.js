@@ -19,8 +19,8 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import axios from "axios";
 import { mainListItems } from "./listItems";
-// import Chart from "./Chart";
 // import Deposits from "./Deposits";
+import CategoryModal from "./CategoryModal";
 import Items from "./Items";
 import { API_URL } from "../../appHelper";
 
@@ -88,6 +88,7 @@ const mdTheme = createTheme();
 function DashboardContent() {
   const [open, setOpen] = useState(true);
   const [categories, setCategories] = useState([]);
+  const [categoryNames, setCategoryNames] = useState([]);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -101,6 +102,8 @@ function DashboardContent() {
         },
       });
       setCategories(result.data);
+      const namesArr = categories.map((category) => category.name);
+      setCategoryNames(namesArr);
     }
     fetchData();
   }, []);
@@ -166,19 +169,6 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* Chart */}
-              {/* <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 240,
-                  }}
-                >
-                  <Chart />
-                </Paper>
-              </Grid> */}
               {/* Recent Deposits */}
               {/* <Grid item xs={12} md={4} lg={3}>
                 <Paper
@@ -192,17 +182,22 @@ function DashboardContent() {
                   <Deposits />
                 </Paper>
               </Grid> */}
-              {/* Recent Orders */}
+              {/* Inventory */}
               {categories.length !== 0 &&
                 categories.map((category) => {
                   return (
                     <Grid item xs={12} key={category._id}>
                       <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                        <Items category={category.name} />
+                        <Items category={category} categoryNames={categoryNames} />
                       </Paper>
                     </Grid>
                   );
                 })}
+              <Grid item xs={12}>
+                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+                  <CategoryModal />
+                </Paper>
+              </Grid>
             </Grid>
             <Copyright sx={{ pt: 4 }} />
           </Container>
