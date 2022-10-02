@@ -5,13 +5,12 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { API_URL } from "../../appHelper";
+import { API_URL } from "../../../appHelper";
 
-export default function ItemModal({ category }) {
+export default function AddItemModal({ category }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -37,7 +36,12 @@ export default function ItemModal({ category }) {
       },
     };
     try {
-      const result = await axios.post(`${API_URL}/items/add`, itemObj);
+      const access = localStorage.getItem("token");
+      const result = await axios.post(`${API_URL}/items/add`, itemObj, {
+        headers: {
+          authorization: `Bearer ${access}`,
+        },
+      });
       if (result.status === 200) {
         handleClose();
         Swal.fire({
@@ -76,7 +80,6 @@ export default function ItemModal({ category }) {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>New Item</DialogTitle>
         <DialogContent>
-          <DialogContentText>Add New Item</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
@@ -84,7 +87,7 @@ export default function ItemModal({ category }) {
             label="Item Name"
             type="text"
             fullWidth
-            variant="outlined"
+            variant="standard"
             onChange={(e) => setName(e.target.value)}
           />
           <TextField
@@ -94,7 +97,7 @@ export default function ItemModal({ category }) {
             label="Item Description"
             type="text"
             fullWidth
-            variant="outlined"
+            variant="standard"
             onChange={(e) => setDescription(e.target.value)}
           />
           <TextField
@@ -104,7 +107,7 @@ export default function ItemModal({ category }) {
             label="Item Quantity"
             type="number"
             fullWidth
-            variant="outlined"
+            variant="standard"
             onChange={(e) => setQuantity(e.target.value)}
           />
           <TextField
@@ -114,7 +117,7 @@ export default function ItemModal({ category }) {
             label="Category"
             type="text"
             fullWidth
-            variant="outlined"
+            variant="standard"
             disabled
             value={category.name}
           />

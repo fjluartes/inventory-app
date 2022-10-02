@@ -1,4 +1,6 @@
 const Category = require("../models/category");
+const Item = require("../models/item");
+const ItemController = require("./item");
 
 const add = async (params) => {
   try {
@@ -33,7 +35,20 @@ const findOne = async (name) => {
 
 const edit = async (params) => {
   try {
+    const oldCategory = await Category.findOne({ _id: params.id });
     const category = await Category.updateOne({ _id: params.id }, params);
+    const items = await ItemController.findAllByCategory({ name: oldCategory.name });
+    items.forEach(async (item) => {
+      await Item.updateOne(
+        { _id: item._id },
+        {
+          category: {
+            categoryId: params.id,
+            categoryName: params.name,
+          },
+        },
+      );
+    });
     return { message: "Category edited.", data: category };
   } catch (err) {
     return err;

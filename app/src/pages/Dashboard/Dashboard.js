@@ -20,7 +20,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import axios from "axios";
 import { mainListItems } from "./listItems";
 // import Deposits from "./Deposits";
-import CategoryModal from "./CategoryModal";
+import AddCategoryModal from "./Category/AddCategoryModal";
 import Items from "./Items";
 import { API_URL } from "../../appHelper";
 
@@ -192,7 +192,7 @@ function DashboardContent() {
                 })}
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <CategoryModal />
+                  <AddCategoryModal />
                 </Paper>
               </Grid>
             </Grid>

@@ -1,21 +1,21 @@
-import { React, useState } from "react";
+/* eslint-disable react/prop-types */
+import { React, useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { API_URL } from "../../appHelper";
+import { API_URL } from "../../../appHelper";
 
-export default function CategoryModal() {
-  const [open, setOpen] = useState(false);
+export default function EditCategoryModal({ openModal, category }) {
+  const [open, setOpen] = useState(openModal);
   const [name, setName] = useState("");
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleOpen = () => {
+    setOpen(openModal);
   };
 
   const handleClose = () => {
@@ -25,16 +25,23 @@ export default function CategoryModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const categoryObj = {
+      id: category._id,
       name,
     };
     try {
-      const result = await axios.post(`${API_URL}/categories/add`, categoryObj);
+      const access = localStorage.getItem("token");
+      const result = await axios.put(`${API_URL}/categories/edit`, categoryObj, {
+        headers: {
+          authorization: `Bearer ${access}`,
+        },
+      });
       if (result.status === 200) {
+        console.log(result.data);
         handleClose();
         Swal.fire({
           icon: "success",
           title: "Success",
-          text: "Successfully added category",
+          text: result.data.message,
           confirmButtonText: "Back to Inventory",
         }).then(() => {
           setName("");
@@ -57,15 +64,20 @@ export default function CategoryModal() {
     }
   };
 
+  useEffect(() => {
+    console.log(category);
+    handleOpen();
+    setName(category.name);
+  }, []);
+
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      {/* <Button variant="outlined" onClick={handleClickOpen}>
         Add New Category
-      </Button>
+      </Button> */}
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New Category</DialogTitle>
+        <DialogTitle>Edit Category</DialogTitle>
         <DialogContent>
-          <DialogContentText>Add New Category</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
@@ -73,13 +85,14 @@ export default function CategoryModal() {
             label="Category Name"
             type="text"
             fullWidth
-            variant="outlined"
+            variant="standard"
+            value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Add</Button>
+          <Button onClick={handleSubmit}>Save</Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -1,17 +1,22 @@
 /* eslint-disable react/prop-types */
 import { React, useState, useEffect } from "react";
+import Link from "@mui/material/Link";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import axios from "axios";
-import ItemModal from "./ItemModal";
+import AddItemModal from "./Item/AddItemModal";
+import EditCategoryModal from "./Category/EditCategoryModal";
+import EditItemModal from "./Item/EditItemModal";
 import Title from "./Title";
 import { API_URL } from "../../appHelper";
 
 export default function Items({ category }) {
   const [items, setItems] = useState([]);
+  const [openCategoryModal, setOpenCategoryModal] = useState(false);
+  const [openItemModal, setOpenItemModal] = useState(false);
   const { name } = category;
 
   useEffect(() => {
@@ -27,13 +32,24 @@ export default function Items({ category }) {
     fetchData();
   }, []);
 
-  const handleItem = () => {
-    return <ItemModal sx={{ mt: 3 }} category={category} />;
+  const handleCategoryEdit = () => {
+    setOpenCategoryModal(!openCategoryModal);
+  };
+
+  const handleItemEdit = () => {
+    setOpenItemModal(!openItemModal);
   };
 
   return (
     <>
-      <Title>{name}</Title> {/* Edit Category Link */}
+      <Title>
+        <Link color="primary" href="#" onClick={handleCategoryEdit}>
+          {name}
+          {openCategoryModal ? (
+            <EditCategoryModal openModal={openCategoryModal} category={category} />
+          ) : null}
+        </Link>
+      </Title>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -45,9 +61,16 @@ export default function Items({ category }) {
         </TableHead>
         <TableBody>
           {items.map((item) => (
-            <TableRow key={item._id} onClick={handleItem}>
+            <TableRow key={item._id}>
               <TableCell>{item.dateCreated}</TableCell>
-              <TableCell>{item.name}</TableCell>
+              <TableCell>
+                <Link color="primary" href="#" onClick={handleItemEdit}>
+                  {item.name}
+                  {openItemModal ? (
+                    <EditItemModal openModal={openItemModal} category={category} item={item} />
+                  ) : null}
+                </Link>
+              </TableCell>
               <TableCell>{item.description}</TableCell>
               <TableCell align="right">{item.quantity}</TableCell>
             </TableRow>
@@ -55,7 +78,7 @@ export default function Items({ category }) {
         </TableBody>
       </Table>
       <div style={{ marginTop: "10px" }}>
-        <ItemModal sx={{ mt: 3 }} category={category} />
+        <AddItemModal sx={{ mt: 3 }} category={category} />
       </div>
     </>
   );
