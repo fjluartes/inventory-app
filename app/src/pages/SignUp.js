@@ -43,7 +43,6 @@ export default function SignUp() {
       email,
       password,
     };
-
     try {
       const result = await axios.post(`${API_URL}/users/add`, registerObj);
       if (result.status === 200) {

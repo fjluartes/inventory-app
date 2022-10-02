@@ -6,9 +6,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { API_URL } from "../../appHelper";
 
 export default function CategoryModal() {
   const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -16,6 +20,41 @@ export default function CategoryModal() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const categoryObj = {
+      name,
+    };
+    try {
+      const result = await axios.post(`${API_URL}/categories/add`, categoryObj);
+      if (result.status === 200) {
+        handleClose();
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "Successfully added category",
+          confirmButtonText: "Back to Inventory",
+        }).then(() => {
+          setName("");
+          window.location.replace("/inventory");
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Something went wrong",
+        });
+      }
+    } catch (err) {
+      // console.log(err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: err.message,
+      });
+    }
   };
 
   return (
@@ -35,11 +74,12 @@ export default function CategoryModal() {
             type="text"
             fullWidth
             variant="outlined"
+            onChange={(e) => setName(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Add</Button>
+          <Button onClick={handleSubmit}>Add</Button>
         </DialogActions>
       </Dialog>
     </div>

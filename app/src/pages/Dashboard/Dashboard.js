@@ -185,7 +185,7 @@ function DashboardContent() {
                   return (
                     <Grid item xs={12} key={category._id}>
                       <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                        <Items category={category} categories={categories} />
+                        <Items category={category} />
                       </Paper>
                     </Grid>
                   );

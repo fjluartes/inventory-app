@@ -10,7 +10,7 @@ import ItemModal from "./ItemModal";
 import Title from "./Title";
 import { API_URL } from "../../appHelper";
 
-export default function Items({ category, categories }) {
+export default function Items({ category }) {
   const [items, setItems] = useState([]);
   const { name } = category;
 
@@ -27,9 +27,13 @@ export default function Items({ category, categories }) {
     fetchData();
   }, []);
 
+  const handleItem = () => {
+    return <ItemModal sx={{ mt: 3 }} category={category} />;
+  };
+
   return (
     <>
-      <Title>{name}</Title>
+      <Title>{name}</Title> {/* Edit Category Link */}
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -41,7 +45,7 @@ export default function Items({ category, categories }) {
         </TableHead>
         <TableBody>
           {items.map((item) => (
-            <TableRow key={item._id}>
+            <TableRow key={item._id} onClick={handleItem}>
               <TableCell>{item.dateCreated}</TableCell>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.description}</TableCell>
@@ -51,7 +55,7 @@ export default function Items({ category, categories }) {
         </TableBody>
       </Table>
       <div style={{ marginTop: "10px" }}>
-        <ItemModal sx={{ mt: 3 }} categories={categories} />
+        <ItemModal sx={{ mt: 3 }} category={category} />
       </div>
     </>
   );

@@ -43,7 +43,6 @@ export default function SignIn() {
       email,
       password,
     };
-
     try {
       const result = await axios.post(`${API_URL}/users/login`, loginObj);
       if (result.status === 200) {
