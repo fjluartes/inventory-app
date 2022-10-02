@@ -43,7 +43,7 @@ export default function ItemModal({ category }) {
         Swal.fire({
           icon: "success",
           title: "Success",
-          text: "Successfully added category",
+          text: "Successfully added item",
           confirmButtonText: "Back to Inventory",
         }).then(() => {
           setName("");
