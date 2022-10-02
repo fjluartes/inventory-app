@@ -9,7 +9,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { API_URL } from "../../../appHelper";
 
-export default function AddCategoryModal() {
+export default function CategoryModal() {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
 

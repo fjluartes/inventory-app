@@ -7,7 +7,7 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import axios from "axios";
-import AddItemModal from "./Item/AddItemModal";
+import ItemModal from "./Item/ItemModal";
 import EditCategoryModal from "./Category/EditCategoryModal";
 import EditItemModal from "./Item/EditItemModal";
 import Title from "./Title";
@@ -15,8 +15,6 @@ import { API_URL } from "../../appHelper";
 
 export default function Items({ category }) {
   const [items, setItems] = useState([]);
-  const [openCategoryModal, setOpenCategoryModal] = useState(false);
-  const [openItemModal, setOpenItemModal] = useState(false);
   const { name } = category;
 
   useEffect(() => {
@@ -32,23 +30,10 @@ export default function Items({ category }) {
     fetchData();
   }, []);
 
-  const handleCategoryEdit = () => {
-    setOpenCategoryModal(!openCategoryModal);
-  };
-
-  const handleItemEdit = () => {
-    setOpenItemModal(!openItemModal);
-  };
-
   return (
     <>
       <Title>
-        <Link color="primary" href="#" onClick={handleCategoryEdit}>
-          {name}
-          {openCategoryModal ? (
-            <EditCategoryModal openModal={openCategoryModal} category={category} />
-          ) : null}
-        </Link>
+        <EditCategoryModal category={category} />
       </Title>
       <Table size="small">
         <TableHead>
@@ -64,11 +49,8 @@ export default function Items({ category }) {
             <TableRow key={item._id}>
               <TableCell>{item.dateCreated}</TableCell>
               <TableCell>
-                <Link color="primary" href="#" onClick={handleItemEdit}>
-                  {item.name}
-                  {openItemModal ? (
-                    <EditItemModal openModal={openItemModal} category={category} item={item} />
-                  ) : null}
+                <Link color="primary" href="#">
+                  <EditItemModal category={category} item={item} />
                 </Link>
               </TableCell>
               <TableCell>{item.description}</TableCell>
@@ -78,7 +60,7 @@ export default function Items({ category }) {
         </TableBody>
       </Table>
       <div style={{ marginTop: "10px" }}>
-        <AddItemModal sx={{ mt: 3 }} category={category} />
+        <ItemModal sx={{ mt: 3 }} category={category} />
       </div>
     </>
   );

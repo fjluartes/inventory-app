@@ -20,7 +20,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import axios from "axios";
 import { mainListItems } from "./listItems";
 // import Deposits from "./Deposits";
-import AddCategoryModal from "./Category/AddCategoryModal";
+import AddCategoryModal from "./Category/CategoryModal";
 import Items from "./Items";
 import { API_URL } from "../../appHelper";
 

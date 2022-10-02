@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
+import Link from "@mui/material/Link";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -10,14 +11,14 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { API_URL } from "../../../appHelper";
 
-export default function EditItemModal({ openModal, category, item }) {
-  const [open, setOpen] = useState(openModal);
+export default function EditItemModal({ category, item }) {
+  const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(0);
 
   const handleClickOpen = () => {
-    setOpen(openModal);
+    setOpen(true);
   };
 
   const handleClose = () => {
@@ -27,6 +28,7 @@ export default function EditItemModal({ openModal, category, item }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const itemObj = {
+      id: item._id,
       name,
       description,
       quantity,
@@ -72,13 +74,19 @@ export default function EditItemModal({ openModal, category, item }) {
     }
   };
 
+  useEffect(() => {
+    setName(item.name);
+    setDescription(item.description);
+    setQuantity(item.quantity);
+  }, []);
+
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Add New
-      </Button>
+      <Link variant="primary" onClick={handleClickOpen}>
+        {item.name}
+      </Link>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New Item</DialogTitle>
+        <DialogTitle>Edit Item</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -88,7 +96,7 @@ export default function EditItemModal({ openModal, category, item }) {
             type="text"
             fullWidth
             variant="standard"
-            value={item.name}
+            value={name}
             onChange={(e) => setName(e.target.value)}
           />
           <TextField
@@ -99,7 +107,7 @@ export default function EditItemModal({ openModal, category, item }) {
             type="text"
             fullWidth
             variant="standard"
-            value={item.description}
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
           <TextField
@@ -110,7 +118,7 @@ export default function EditItemModal({ openModal, category, item }) {
             type="number"
             fullWidth
             variant="standard"
-            value={item.quantity}
+            value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
           />
           <TextField

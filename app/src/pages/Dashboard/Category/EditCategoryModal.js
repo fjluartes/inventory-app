@@ -6,16 +6,17 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { API_URL } from "../../../appHelper";
 
-export default function EditCategoryModal({ openModal, category }) {
-  const [open, setOpen] = useState(openModal);
+export default function EditCategoryModal({ category }) {
+  const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
 
-  const handleOpen = () => {
-    setOpen(openModal);
+  const handleClickOpen = () => {
+    setOpen(true);
   };
 
   const handleClose = () => {
@@ -65,16 +66,12 @@ export default function EditCategoryModal({ openModal, category }) {
   };
 
   useEffect(() => {
-    console.log(category);
-    handleOpen();
     setName(category.name);
   }, []);
 
   return (
     <div>
-      {/* <Button variant="outlined" onClick={handleClickOpen}>
-        Add New Category
-      </Button> */}
+      {name} <EditOutlinedIcon fontSize="small" onClick={handleClickOpen} />
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Edit Category</DialogTitle>
         <DialogContent>
