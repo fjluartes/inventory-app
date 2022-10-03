@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { API_URL } from "../../../appHelper";
+import { API_URL } from "../../appHelper";
 
 export default function CategoryModal() {
   const [open, setOpen] = useState(false);

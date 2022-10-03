@@ -16,6 +16,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { API_URL } from "../appHelper";
+// import useAuth from "../components/useAuth";
 
 function Copyright(props) {
   return (
@@ -35,7 +36,7 @@ const theme = createTheme();
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const { user, setUser } = useContext(UserContext);
+  // const { login } = useAuth;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,10 +57,6 @@ export default function SignIn() {
           });
           if (details.status === 200) {
             // const userData = details.data;
-            // setUser({
-            //   id: userData._id,
-            //   email: userData.email,
-            // });
             setEmail("");
             setPassword("");
             window.location.replace("/inventory");

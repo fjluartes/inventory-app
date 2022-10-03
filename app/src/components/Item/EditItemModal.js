@@ -1,19 +1,21 @@
 /* eslint-disable react/prop-types */
 import { React, useState, useEffect } from "react";
+import Link from "@mui/material/Link";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { API_URL } from "../../../appHelper";
+import { API_URL } from "../../appHelper";
 
-export default function EditCategoryModal({ category }) {
+export default function EditItemModal({ category, item }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [quantity, setQuantity] = useState(0);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -25,13 +27,19 @@ export default function EditCategoryModal({ category }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const categoryObj = {
-      id: category._id,
+    const itemObj = {
+      id: item._id,
       name,
+      description,
+      quantity,
+      category: {
+        categoryId: category._id,
+        categoryName: category.name,
+      },
     };
     try {
       const access = localStorage.getItem("token");
-      const result = await axios.put(`${API_URL}/categories/edit`, categoryObj, {
+      const result = await axios.put(`${API_URL}/items/edit`, itemObj, {
         headers: {
           authorization: `Bearer ${access}`,
         },
@@ -45,6 +53,8 @@ export default function EditCategoryModal({ category }) {
           confirmButtonText: "Back to Inventory",
         }).then(() => {
           setName("");
+          setDescription("");
+          setQuantity(0);
           window.location.replace("/inventory");
         });
       } else {
@@ -66,10 +76,10 @@ export default function EditCategoryModal({ category }) {
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    const categoryObj = { id: category._id };
+    const itemObj = { id: item._id };
     try {
       const access = localStorage.getItem("token");
-      const result = await axios.put(`${API_URL}/categories/delete`, categoryObj, {
+      const result = await axios.put(`${API_URL}/items/delete`, itemObj, {
         headers: {
           authorization: `Bearer ${access}`,
         },
@@ -79,10 +89,12 @@ export default function EditCategoryModal({ category }) {
         Swal.fire({
           icon: "success",
           title: "Success",
-          text: result.data.message,
+          text: result.data,
           confirmButtonText: "Back to Inventory",
         }).then(() => {
           setName("");
+          setDescription("");
+          setQuantity(0);
           window.location.replace("/inventory");
         });
       } else {
@@ -103,25 +115,62 @@ export default function EditCategoryModal({ category }) {
   };
 
   useEffect(() => {
-    setName(category.name);
+    setName(item.name);
+    setDescription(item.description);
+    setQuantity(item.quantity);
   }, []);
 
   return (
     <div>
-      {name} <EditOutlinedIcon fontSize="small" onClick={handleClickOpen} />
+      <Link variant="primary" onClick={handleClickOpen}>
+        {item.name}
+      </Link>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Edit Category</DialogTitle>
+        <DialogTitle>Edit Item</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Category Name"
+            label="Item Name"
             type="text"
             fullWidth
             variant="standard"
             value={name}
             onChange={(e) => setName(e.target.value)}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="description"
+            label="Item Description"
+            type="text"
+            fullWidth
+            variant="standard"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="quantity"
+            label="Item Quantity"
+            type="number"
+            fullWidth
+            variant="standard"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Category"
+            type="text"
+            fullWidth
+            variant="standard"
+            disabled
+            value={category.name}
           />
         </DialogContent>
         <DialogActions>

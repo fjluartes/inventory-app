@@ -7,9 +7,9 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import axios from "axios";
-import ItemModal from "./Item/ItemModal";
-import EditCategoryModal from "./Category/EditCategoryModal";
-import EditItemModal from "./Item/EditItemModal";
+import ItemModal from "../../components/Item/ItemModal";
+import EditCategoryModal from "../../components/Category/EditCategoryModal";
+import EditItemModal from "../../components/Item/EditItemModal";
 import Title from "./Title";
 import { API_URL } from "../../appHelper";
 
